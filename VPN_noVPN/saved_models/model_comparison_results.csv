@@ -1,0 +1,6 @@
+,accuracy,precision,recall,f1_score,auc_score,training_time
+XGBoost,0.9339,0.9191,0.9528,0.9356,0.9864,2.2897
+LightGBM,0.9254,0.91,0.9455,0.9274,0.982,0.9798
+Random Forest,0.9133,0.8912,0.9432,0.9165,0.976,5.0318
+Decision Tree,0.8932,0.8837,0.9075,0.8954,0.9473,0.9682
+Logistic Regression,0.5723,0.5545,0.7712,0.6451,0.6226,2.3648
