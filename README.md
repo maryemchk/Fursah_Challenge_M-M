@@ -1,104 +1,88 @@
-# Fursah_Bot_Traffic_Detection
-🛡️ Botnet Traffic Detection in Network Flows
-📌 Project Description
-This project addresses the detection of botnet network traffic using a large dataset of network flow records. The dataset is highly imbalanced, with botnet flows making up only ~1.45% of total records. The goal is to develop a high-performance model capable of distinguishing normal from malicious (botnet) traffic.
+Botnet Traffic Detection using Machine Learning
+This project tackles the challenge of botnet traffic detection using the CTU-13 dataset and advanced machine learning techniques. The goal is to distinguish between normal and botnet traffic in a highly imbalanced environment.
 
-📂 Dataset Overview
-Total samples: 2,824,636
+📊 Dataset Overview
+Dataset Size: 2,824,636 network flow records
 
-Features: 15 original, extended to 45 through feature engineering
+Columns: 15 original features including StartTime, Dur, Proto, SrcAddr, Sport, Dir, DstAddr, Dport, State, TotPkts, TotBytes, etc.
 
-Label: Multi-class labels reduced to binary (Normal, Botnet)
+Target: Label (botnet vs. normal flow)
 
-Imbalance ratio: ~68:1 (Normal to Botnet)
+🔍 Problem Characteristics
+Type: Binary Classification (Normal vs. Botnet)
 
-🔧 Key Steps & Decisions
-✅ 1. Data Cleaning
-Missing values found in Sport, Dport, sTos, dTos, and State.
+Challenge: Severe class imbalance (67.96:1)
 
-Handled using:
+Normal traffic: 2,783,675 samples
 
-Filling with "unknown" for categorical.
+Botnet traffic: 40,961 samples
 
-Filling with 0 or appropriate placeholder for numerical.
+🧼 Data Preprocessing
+✅ Missing Values
+Sport, Dport, State, sTos, dTos had missing values.
 
-🧠 2. Feature Engineering
-Added 30+ new features, including:
+Handled with conditional imputation and flags for missingness.
 
-Time-based: Hour, Minute, Second
+✅ Feature Engineering
+Created 30+ new features, including:
 
-Traffic stats: Packet_rate, Byte_rate, Avg_packet_size, Bytes_ratio
+Time-based features: Hour, Minute, Second
 
-Categorical grouping: Sport_category, Dport_category
+Statistical features: Packet rate, Byte rate, Avg packet size, Variance
 
-Binary flags: Is_TCP, Is_UDP, Is_high_volume, etc.
+Categorical transformations: Encoded Dir, State, port categories, etc.
 
-📉 3. Feature Selection
-Selected 25 most informative features using model-based feature importance (e.g., from XGBoost):
+Binary flags: Is_TCP, Is_UDP, Is_short_connection, etc.
 
-Top features: Dur, Packet_rate, Bytes_ratio, State, Dir, Avg_packet_size, etc.
+✅ Feature Selection
+Selected top 25 features based on importance using ensemble models.
 
-⚖️ 4. Handling Class Imbalance
-Used SMOTE (Synthetic Minority Oversampling Technique):
+⚖️ Class Imbalance Handling
+Used SMOTE (Synthetic Minority Oversampling Technique) to balance the dataset:
 
-Original:
-Normal: 2,226,939
-Botnet: 32,769
+Before: [Normal: 2,226,939 | Botnet: 32,769]
 
-After SMOTE:
-Normal: 2,226,939
-Botnet: 2,226,939
+After: [Normal: 2,226,939 | Botnet: 2,226,939]
 
-🤖 Models Trained
+🤖 Model Development
+Individual Models:
 Model	ROC-AUC	PR-AUC	F1-Score	Precision	Recall
 XGBoost	0.9992	0.9595	0.7074	0.5507	0.9888
 LightGBM	0.9990	0.9507	0.6852	0.5246	0.9877
 Random Forest	0.9980	0.8983	0.6213	0.4533	0.9872
 Logistic Regression	0.9742	0.3499	0.2432	0.1397	0.9369
-Ensemble (Best)	0.9990	0.9497	0.6858	0.5248	0.9896
 
-The Ensemble Model (XGBoost + LightGBM + RF) was selected as the final model due to:
+✅ Ensemble Model
+Averaged predictions from XGBoost, LightGBM, and RandomForest:
 
-High Recall (0.9896) – essential in security tasks
+ROC-AUC: 0.9990
 
-Excellent Precision-Recall AUC
+PR-AUC: 0.9497
 
-Balanced F1-score
+F1-Score: 0.6858
 
-🎯 Final Evaluation (with optimal threshold)
-Class	Precision	Recall	F1-score
-Normal	1.00	1.00	1.00
-Botnet	0.89	0.87	0.88
-Accuracy: 1.00	F1: 0.88		
+Optimal threshold tuning achieved F1-Score = 0.88, Recall = 0.87, and Precision = 0.89 on botnet class.
 
-📊 Visualizations Included
-Feature importance
+📈 Evaluation (Test Set)
+Accuracy: 99.9%
 
-Class distribution
+Botnet Detection:
 
-ROC and PR curves
+Precision: 0.89
 
-Confusion matrices
+Recall: 0.87
 
-🔍 Cross-Validation
-5-fold CV confirms high consistency across folds.
+F1-Score: 0.88
 
-ROC-AUC > 0.998 in all folds.
+📌 Key Takeaways
+Applied SMOTE to address class imbalance, which drastically improved botnet detection.
 
-🏁 Conclusion
-This project demonstrates an effective pipeline for detecting botnet traffic:
+Feature engineering played a crucial role in increasing model performance.
 
-Advanced preprocessing
+Ensemble learning outperformed individual classifiers in both ROC-AUC and PR-AUC.
 
-Balanced data via SMOTE
+Optimal threshold tuning helped balance between false positives and false negatives.
 
-Robust modeling using ensemble methods
+🧠 Author
+Maryem Chakroun – AI & Software Engineering enthusiast with a strong focus on cyber security and impactful ML systems.
 
-The system is capable of flagging botnet activities in real-time-like settings with high recall, critical for intrusion detection systems.
-
-💡 Future Work
-Deploy the model in a streaming framework (e.g., Kafka + Spark)
-
-Integrate real-time alerting and visualization dashboard
-
-Extend to multi-class botnet family classification
