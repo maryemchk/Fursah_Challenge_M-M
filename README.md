@@ -1,88 +1,103 @@
-Botnet Traffic Detection using Machine Learning
-This project tackles the challenge of botnet traffic detection using the CTU-13 dataset and advanced machine learning techniques. The goal is to distinguish between normal and botnet traffic in a highly imbalanced environment.
+# 🤖 Botnet Traffic Detection using Machine Learning
 
-📊 Dataset Overview
-Dataset Size: 2,824,636 network flow records
+This project tackles the challenge of **botnet traffic detection** using the [CTU-13 dataset](https://www.stratosphereips.org/datasets-ctu13) and advanced machine learning techniques. The goal is to distinguish between **normal** and **botnet** traffic in a highly imbalanced environment.
 
-Columns: 15 original features including StartTime, Dur, Proto, SrcAddr, Sport, Dir, DstAddr, Dport, State, TotPkts, TotBytes, etc.
+---
 
-Target: Label (botnet vs. normal flow)
+## 📊 Dataset Overview
 
-🔍 Problem Characteristics
-Type: Binary Classification (Normal vs. Botnet)
+- **Dataset Size:** 2,824,636 network flow records  
+- **Columns:** 15 original features including `StartTime`, `Dur`, `Proto`, `SrcAddr`, `Sport`, `Dir`, `DstAddr`, `Dport`, `State`, `TotPkts`, `TotBytes`, etc.  
+- **Target:** `Label` (botnet vs. normal flow)
 
-Challenge: Severe class imbalance (67.96:1)
+---
 
-Normal traffic: 2,783,675 samples
+## 🔍 Problem Characteristics
 
-Botnet traffic: 40,961 samples
+- **Type:** Binary Classification (Normal vs. Botnet)  
+- **Challenge:** Severe class imbalance (67.96:1)  
+  - **Normal traffic:** 2,783,675 samples  
+  - **Botnet traffic:** 40,961 samples
 
-🧼 Data Preprocessing
-✅ Missing Values
-Sport, Dport, State, sTos, dTos had missing values.
+---
 
-Handled with conditional imputation and flags for missingness.
+## 🧼 Data Preprocessing
 
-✅ Feature Engineering
-Created 30+ new features, including:
+### ✅ Missing Values
 
-Time-based features: Hour, Minute, Second
+- Columns with missing values: `Sport`, `Dport`, `State`, `sTos`, `dTos`  
+- Handled via conditional imputation and added flags for missingness.
 
-Statistical features: Packet rate, Byte rate, Avg packet size, Variance
+### ✅ Feature Engineering
 
-Categorical transformations: Encoded Dir, State, port categories, etc.
+Created **30+ new features**, including:
 
-Binary flags: Is_TCP, Is_UDP, Is_short_connection, etc.
+- **Time-based:** Hour, Minute, Second  
+- **Statistical:** Packet rate, Byte rate, Average packet size, Variance  
+- **Categorical Transformations:** Encoded `Dir`, `State`, port categories  
+- **Binary Flags:** Is_TCP, Is_UDP, Is_short_connection, etc.
 
-✅ Feature Selection
-Selected top 25 features based on importance using ensemble models.
+### ✅ Feature Selection
 
-⚖️ Class Imbalance Handling
-Used SMOTE (Synthetic Minority Oversampling Technique) to balance the dataset:
+- Selected **top 25 features** using feature importance from ensemble models.
 
-Before: [Normal: 2,226,939 | Botnet: 32,769]
+---
 
-After: [Normal: 2,226,939 | Botnet: 2,226,939]
+## ⚖️ Class Imbalance Handling
 
-🤖 Model Development
-Individual Models:
-Model	ROC-AUC	PR-AUC	F1-Score	Precision	Recall
-XGBoost	0.9992	0.9595	0.7074	0.5507	0.9888
-LightGBM	0.9990	0.9507	0.6852	0.5246	0.9877
-Random Forest	0.9980	0.8983	0.6213	0.4533	0.9872
-Logistic Regression	0.9742	0.3499	0.2432	0.1397	0.9369
+- Used **SMOTE (Synthetic Minority Oversampling Technique)** to balance the dataset.  
+- **Before SMOTE:**  
+  - Normal: 2,226,939  
+  - Botnet: 32,769  
+- **After SMOTE:**  
+  - Normal: 2,226,939  
+  - Botnet: 2,226,939
 
-✅ Ensemble Model
-Averaged predictions from XGBoost, LightGBM, and RandomForest:
+---
 
-ROC-AUC: 0.9990
+## 🤖 Model Development
 
-PR-AUC: 0.9497
+### Individual Classifiers
 
-F1-Score: 0.6858
+| Model               | ROC-AUC | PR-AUC | F1-Score | Precision | Recall |
+|---------------------|---------|--------|----------|-----------|--------|
+| XGBoost             | 0.9992  | 0.9595 | 0.7074   | 0.5507    | 0.9888 |
+| LightGBM            | 0.9990  | 0.9507 | 0.6852   | 0.5246    | 0.9877 |
+| Random Forest       | 0.9980  | 0.8983 | 0.6213   | 0.4533    | 0.9872 |
+| Logistic Regression | 0.9742  | 0.3499 | 0.2432   | 0.1397    | 0.9369 |
 
-Optimal threshold tuning achieved F1-Score = 0.88, Recall = 0.87, and Precision = 0.89 on botnet class.
+### ✅ Ensemble Model
 
-📈 Evaluation (Test Set)
-Accuracy: 99.9%
+Averaged predictions from **XGBoost**, **LightGBM**, and **Random Forest**:
 
-Botnet Detection:
+- **ROC-AUC:** 0.9990  
+- **PR-AUC:** 0.9497  
+- **F1-Score:** 0.6858  
+- **Tuned threshold:**  
+  - F1-Score = **0.88**  
+  - Precision = **0.89**  
+  - Recall = **0.87**
 
-Precision: 0.89
+---
 
-Recall: 0.87
+## 📈 Evaluation (on Test Set)
 
-F1-Score: 0.88
+- **Accuracy:** 99.9%  
+- **Botnet Class Performance:**  
+  - Precision: **0.89**  
+  - Recall: **0.87**  
+  - F1-Score: **0.88**
 
-📌 Key Takeaways
-Applied SMOTE to address class imbalance, which drastically improved botnet detection.
+---
 
-Feature engineering played a crucial role in increasing model performance.
+## 📌 Key Takeaways
 
-Ensemble learning outperformed individual classifiers in both ROC-AUC and PR-AUC.
+- Applied **SMOTE** to effectively handle severe class imbalance.
+- Extensive **feature engineering** and selection significantly improved model accuracy.
+- **Ensemble learning** outperformed individual models on key metrics.
+- **Threshold tuning** helped optimize the balance between false positives and false negatives.
 
-Optimal threshold tuning helped balance between false positives and false negatives.
+---
 
 🧠 Author
-Maryem Chakroun – AI & Software Engineering enthusiast with a strong focus on cyber security and impactful ML systems.
-
+Maryem Chakroun
