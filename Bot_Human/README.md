@@ -1,3 +1,4 @@
+data :https://drive.google.com/file/d/14_LYlAYS5Rx40km4n_f4dr4_HfGGgqda/view?usp=sharing
 # 🤖 Botnet Traffic Detection using Machine Learning
 
 This project tackles the challenge of **botnet traffic detection** using the [CTU-13 dataset](https://www.stratosphereips.org/datasets-ctu13) and advanced machine learning techniques. The goal is to distinguish between **normal** and **botnet** traffic in a highly imbalanced environment.
