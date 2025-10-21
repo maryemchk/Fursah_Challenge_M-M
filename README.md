@@ -160,26 +160,15 @@ Versioning & Deployment: Git, GitHub
 
 Maryem Chakroun
 Data Scientist & Software Engineer
-LinkedIn
+
 
 Mahdi Ben Ameur
 Machine Learning Engineer
 
 “Securing the future of digital traffic, one packet at a time.” 🔐
 
-🏷️ Repository Metadata
-
-Repository Name: Fursah_Challenge_M-M
-Description: A comprehensive suite for detecting botnet traffic, classifying VPN flows, and testing real-time detection performance using advanced machine-learning techniques.
-Topics: machine-learning, cybersecurity, botnet-detection, vpn-detection, real-time-inference, network-security, data-science, python
 
 
 ---
 
-### Next Steps
-- Replace the existing `README.md` in your repository with this content.
-- Commit and push the changes so the GitHub repo reflects the updated overview.
-- Optionally add screenshots or sample plots under each section if you want a more visual README.
 
-If you like, I can *generate Markdown code for the README with embedded screenshot links* (assuming you upload some images) so your project page looks more engaging. Would you like me to do that?
-::contentReference[oaicite:1]{index=1}
