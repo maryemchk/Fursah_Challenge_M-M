@@ -1,3 +1,5 @@
+## 📂 Repository Structure
+
 CYBERSECURITY_TRAFFIC_ANALYSIS/
 │
 ├── BOTNET_DETECTION/ # Botnet traffic detection (CTU-13)
